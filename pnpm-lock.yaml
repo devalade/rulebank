@@ -69,8 +69,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1(react@19.0.0)
       tailwind-merge:
-        specifier: ^3.0.2
-        version: 3.0.2
+        specifier: ^3.1.0
+        version: 3.1.0
       tailwindcss-animate:
         specifier: ^1.0.6
         version: 1.0.7(tailwindcss@4.0.10)
@@ -3258,8 +3258,8 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
-  tailwind-merge@3.0.2:
-    resolution: {integrity: sha512-l7z+OYZ7mu3DTqrL88RiKrKIqO3NcpEO8V/Od04bNpvk0kiIFndGEoqfuzvj4yuhRkHKjRkII2z+KS2HfPcSxw==}
+  tailwind-merge@3.1.0:
+    resolution: {integrity: sha512-aV27Oj8B7U/tAOMhJsSGdWqelfmudnGMdXIlMnk1JfsjwSjts6o8HyfN7SFH3EztzH4YH8kk6GbLTHzITJO39Q==}
 
   tailwindcss-animate@1.0.7:
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
@@ -6273,7 +6273,7 @@ snapshots:
       pirates: 4.0.7
       ts-interface-checker: 0.1.13
 
-  tailwind-merge@3.0.2: {}
+  tailwind-merge@3.1.0: {}
 
   tailwindcss-animate@1.0.7(tailwindcss@4.0.10):
     dependencies:
