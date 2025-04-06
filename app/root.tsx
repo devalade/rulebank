@@ -45,7 +45,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
         <ThemeSwitcherScript nonce={nonce} />
       </head>
-      <body>
+      <body className="relative">
+        <div className="texture" />
         <ProgressBar />
         {children}
         <ScrollRestoration nonce={nonce} />
