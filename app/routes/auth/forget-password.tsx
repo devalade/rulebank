@@ -17,18 +17,25 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const email = formData.get("email") as string;
 
-  if (!isValidEmailFormat(email)) {
-    return toast.error("Invalid email format.");
+  try {
+    if (!isValidEmailFormat(email)) {
+      return toast.error("Invalid email format. Please enter a valid email address.");
+    }
+
+    const { error } = await forgetPassword({
+      email: email.trim().toLowerCase(),
+      redirectTo: "/auth/reset-password",
+    });
+
+    if (error) {
+      return toast.error(error.message || "Failed to send reset link. Please try again.");
+    }
+    
+    return toast.success("Password reset link sent to your email. Please check your inbox.");
+  } catch (error) {
+    console.error("Forget password error:", error);
+    return toast.error("An unexpected error occurred. Please try again later.");
   }
-
-  const { error } = await forgetPassword({
-    email,
-    redirectTo: "/auth/reset-password",
-  });
-
-  return error
-    ? toast.error(error.message)
-    : toast.success("Password reset link sent to your email!");
 }
 
 export default function ForgetPassword() {

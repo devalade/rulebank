@@ -14,7 +14,10 @@ export const meta: Route.MetaFunction = () => [{ title: "Password Reset" }];
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const token = url.searchParams.get("token");
-  if (!token) return redirect("/auth/sign-in");
+  if (!token) {
+    toast.error("Missing reset token. Please request a new password reset link.");
+    return redirect("/auth/forget-password");
+  }
   return null;
 }
 
@@ -23,20 +26,29 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const password = formData.get("password") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
 
-  if (password !== confirmPassword) {
-    return toast.error("New password and confirm password do not match.");
+  try {
+    if (password.length < 8 || password.length > 32) {
+      return toast.error("Password must be between 8 and 32 characters long.");
+    }
+
+    if (password !== confirmPassword) {
+      return toast.error("New password and confirm password do not match.");
+    }
+
+    const { error } = await resetPassword({
+      newPassword: password.trim(),
+    });
+
+    if (error) {
+      return toast.error(error.message || "Password reset failed. Please try again.");
+    }
+
+    toast.success("Password reset successfully! Please sign in with your new password.");
+    return redirect("/auth/sign-in");
+  } catch (error) {
+    console.error("Reset password error:", error);
+    return toast.error("An unexpected error occurred. Please try again later.");
   }
-
-  const { error } = await resetPassword({
-    newPassword: password,
-  });
-
-  if (error) {
-    return toast.error(error.message);
-  }
-
-  toast.success("Password reset successfully! Please sign in again.");
-  return redirect("/auth/sign-in");
 }
 
 export default function ResetPassword() {

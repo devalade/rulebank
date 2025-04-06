@@ -18,33 +18,38 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const name = formData.get("name") as string;
   const password = formData.get("password") as string;
 
-  if (!isValidEmailFormat(email)) {
-    return toast.error("Invalid email format.");
+  try {
+    if (!isValidEmailFormat(email)) {
+      return toast.error("Invalid email format. Please enter a valid email address.");
+    }
+
+    if (name.length < 3) {
+      return toast.error("Name must be at least 3 characters long.");
+    }
+
+    if (password.length < 8 || password.length > 32) {
+      return toast.error("Password must be between 8 and 32 characters long.");
+    }
+
+    const { error } = await signUp.email({
+      email: email.trim().toLowerCase(),
+      name: name.trim(),
+      password: password.trim(),
+      callbackURL: "/dashboard",
+    });
+
+    if (error) {
+      return toast.error(error.message || "Sign up failed. Please try again.");
+    }
+
+    toast.success(
+      "Sign up successful! Please check your email for a verification link.",
+    );
+    return redirect("/auth/sign-in");
+  } catch (error) {
+    console.error("Sign-up error:", error);
+    return toast.error("An unexpected error occurred. Please try again later.");
   }
-
-  if (name.length < 3) {
-    return toast.error("Name must be at least 3 characters long.");
-  }
-
-  if (password.length <= 8 || password.length > 32) {
-    return toast.error("Password must be between 8 and 32 characters long.");
-  }
-
-  const { error } = await signUp.email({
-    email: email.trim().toLowerCase(),
-    name: name.trim(),
-    password: password.trim(),
-    callbackURL: "/dashboard",
-  });
-
-  if (error) {
-    return toast.error(error.message);
-  }
-
-  toast.success(
-    "Sign up successful! Please check your email for a verification link.",
-  );
-  return redirect("/auth/sign-in");
 }
 
 export default function SignUp() {

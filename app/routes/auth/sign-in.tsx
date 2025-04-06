@@ -19,27 +19,33 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const intent = formData.get("intent") as string;
   let data = null;
 
-  switch (intent) {
-    case "sign-in":
-      data = await signIn.email({ email, password });
-      break;
-    case "github":
-    case "google":
-      data = await signIn.social({
-        provider: intent,
-        callbackURL: "/dashboard",
-      });
-      break;
-    default:
-      toast.error("Invalid intent");
-      return;
-  }
+  try {
+    switch (intent) {
+      case "sign-in":
+        data = await signIn.email({ email, password });
+        break;
+      case "github":
+      case "google":
+        data = await signIn.social({
+          provider: intent,
+          callbackURL: "/dashboard",
+        });
+        break;
+      default:
+        toast.error("Invalid authentication method");
+        return;
+    }
 
-  if (data?.error) {
-    return toast.error(data?.error?.message);
-  }
+    if (data?.error) {
+      return toast.error(data.error.message || "Authentication failed. Please try again.");
+    }
 
-  return redirect("/dashboard");
+    toast.success("Successfully signed in!");
+    return redirect("/dashboard");
+  } catch (error) {
+    console.error("Sign-in error:", error);
+    return toast.error("An unexpected error occurred. Please try again later.");
+  }
 }
 
 export default function SignIn() {
