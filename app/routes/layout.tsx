@@ -1,4 +1,4 @@
-import { redirect } from "react-router";
+import { Outlet, redirect } from "react-router";
 
 import { serverAuth } from "~/auth/auth.server";
 import type { Route } from "./+types/layout";
@@ -21,8 +21,9 @@ export default function Layout({
 }: Route.ComponentProps) {
   return (
     <>
+      <main className="relative">
+
       <div className="texture" />
-      <main className="">
         <Outlet />
       </main>
     </>
