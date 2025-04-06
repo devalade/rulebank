@@ -132,3 +132,31 @@ export const todo = sqliteTable(
     };
   },
 );
+
+// Rules table
+export const rule = sqliteTable(
+  "rule",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    steps: text("steps").notNull(),
+    example: text("example").notNull(),
+    userId: text("userId")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    votes: integer("votes").notNull().default(0),
+    commentsCount: integer("commentsCount").notNull().default(0),
+    createdAt: integer("createdAt", { mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: integer("updatedAt", { mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+  },
+  (table) => {
+    return {
+      userIdIndex: index("rule_userId_idx").on(table.userId),
+    };
+  },
+);
