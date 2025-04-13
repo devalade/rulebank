@@ -1,12 +1,15 @@
 import {
+  data,
   isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
+  type LoaderFunctionArgs,
 } from "react-router";
-import { Toaster } from "sonner";
+import { Toaster, toast as notify } from "sonner";
 
 import type { Route } from "./+types/root";
 import { ProgressBar } from "./components/progress-bar";
@@ -16,6 +19,8 @@ import {
 } from "./components/theme-switcher";
 import { useNonce } from "./hooks/use-nonce";
 import "./styles/app.css";
+import { useEffect } from "react";
+import { getToast } from "remix-toast";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -29,6 +34,11 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { toast, headers } = await getToast(request);
+  return data({ toast }, { headers });
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const nonce = useNonce();
@@ -58,6 +68,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { toast } = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    if (toast?.type === "error") {
+      notify.error(toast.message);
+    }
+    if (toast?.type === "success") {
+      notify.success(toast.message);
+    }
+  }, [toast]);
   return <Outlet />;
 }
 

@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { sql, type InferSelectModel } from "drizzle-orm";
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // Better auth tables
@@ -112,41 +112,15 @@ export const rateLimit = sqliteTable(
   },
 );
 
-// Todo tables
-export const todo = sqliteTable(
-  "todo",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    title: text("title").notNull(),
-    userId: text("userId")
-      .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
-    completed: integer("completed").notNull().default(0),
-    createdAt: integer("createdAt", { mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-  },
-  (table) => {
-    return {
-      userIdIndex: index("todo_userId_idx").on(table.userId),
-    };
-  },
-);
-
 // Rules table
 export const rule = sqliteTable(
   "rule",
   {
-    id: integer("id").primaryKey({ autoIncrement: true }),
+    id: text("id").primaryKey(),
     title: text("title").notNull(),
     description: text("description").notNull(),
-    steps: text("steps").notNull(),
-    example: text("example").notNull(),
-    userId: text("userId")
-      .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
-    votes: integer("votes").notNull().default(0),
-    commentsCount: integer("commentsCount").notNull().default(0),
+    githubUrl: text("githubUrl").notNull().unique(),
+    tags: text("tags"),
     createdAt: integer("createdAt", { mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
@@ -156,7 +130,9 @@ export const rule = sqliteTable(
   },
   (table) => {
     return {
-      userIdIndex: index("rule_userId_idx").on(table.userId),
+      githubUrlIndex: index("rule_github_url_idx").on(table.githubUrl),
     };
   },
 );
+
+export type Rule = InferSelectModel<typeof rule>;

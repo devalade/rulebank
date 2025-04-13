@@ -1,8 +1,41 @@
 import { clsx, type ClassValue } from "clsx";
+import { UNSAFE_invariant as invariant } from "react-router";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function debounce<T extends (...args: any[]) => void>(
+  func: T,
+  wait: number,
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout | null = null;
+
+  return (...args: Parameters<T>) => {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      func(...args);
+    }, wait);
+  };
+}
+
+export function getGitHubUsername(url: string) {
+  try {
+    const cleanedUrl = url.trim().split("?")[0];
+    invariant(cleanedUrl, "Invalid github url");
+    const parts = cleanedUrl.split("/").filter((part) => part.length > 0);
+    if (!parts.includes("github.com") || parts.length < 3) {
+      return null; // Invalid URL
+    }
+    const usernameIndex = parts.indexOf("github.com") + 1;
+    return parts[usernameIndex] || null;
+  } catch (error) {
+    console.error("Error parsing GitHub URL:", error);
+    return null;
+  }
 }
 
 export function isValidEmailFormat(email: string): boolean {

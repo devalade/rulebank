@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "5aec64d5-3e0f-4c31-98a7-ce389f13c788",
-  "prevId": "6bab105a-7b5e-4916-9ea8-4d34c8e822e0",
+  "id": "ea49fbdd-b076-4553-acdd-437672245958",
+  "prevId": "b093bbd7-edd6-422a-9598-fb8c8201a23d",
   "tables": {
     "account": {
       "name": "account",
@@ -186,10 +186,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "title": {
           "name": "title",
@@ -205,35 +205,19 @@
           "notNull": true,
           "autoincrement": false
         },
-        "content": {
-          "name": "content",
+        "githubUrl": {
+          "name": "githubUrl",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "userId": {
-          "name": "userId",
+        "tags": {
+          "name": "tags",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
-        },
-        "votes": {
-          "name": "votes",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "commentsCount": {
-          "name": "commentsCount",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
         },
         "createdAt": {
           "name": "createdAt",
@@ -253,29 +237,22 @@
         }
       },
       "indexes": {
-        "rule_userId_idx": {
-          "name": "rule_userId_idx",
+        "rule_githubUrl_unique": {
+          "name": "rule_githubUrl_unique",
           "columns": [
-            "userId"
+            "githubUrl"
+          ],
+          "isUnique": true
+        },
+        "rule_github_url_idx": {
+          "name": "rule_github_url_idx",
+          "columns": [
+            "githubUrl"
           ],
           "isUnique": false
         }
       },
-      "foreignKeys": {
-        "rule_userId_user_id_fk": {
-          "name": "rule_userId_user_id_fk",
-          "tableFrom": "rule",
-          "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -375,75 +352,6 @@
             "id"
           ],
           "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "todo": {
-      "name": "todo",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "userId": {
-          "name": "userId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "completed": {
-          "name": "completed",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
-        }
-      },
-      "indexes": {
-        "todo_userId_idx": {
-          "name": "todo_userId_idx",
-          "columns": [
-            "userId"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "todo_userId_user_id_fk": {
-          "name": "todo_userId_user_id_fk",
-          "tableFrom": "todo",
-          "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },

@@ -12,8 +12,50 @@
     {
       "idx": 1,
       "version": "6",
-      "when": 1743902122797,
-      "tag": "0001_parched_paladin",
+      "when": 1743964108549,
+      "tag": "0001_aspiring_vapor",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1743970666420,
+      "tag": "0002_good_magneto",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1743973085620,
+      "tag": "0003_ambiguous_doorman",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1744145322445,
+      "tag": "0004_chief_shocker",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1744233612048,
+      "tag": "0005_tan_klaw",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1744236693827,
+      "tag": "0006_broad_tana_nile",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1744314427017,
+      "tag": "0007_woozy_piledriver",
       "breakpoints": true
     }
   ]

@@ -1,0 +1,1 @@
+ALTER TABLE `rule` ADD `tags` text;

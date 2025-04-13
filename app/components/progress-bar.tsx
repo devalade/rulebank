@@ -42,9 +42,9 @@ function ProgressBar({ showSpinner = false }: ProgressBarProps) {
         className={cn(
           "bg-primary h-full w-0 duration-500 ease-in-out",
           transition.state === "idle" &&
-            (animationComplete
-              ? "transition-none"
-              : "w-full opacity-0 transition-all"),
+          (animationComplete
+            ? "transition-none"
+            : "w-full opacity-0 transition-all"),
           delayedPending && transition.state === "submitting" && "w-5/12",
           delayedPending && transition.state === "loading" && "w-8/12",
         )}
