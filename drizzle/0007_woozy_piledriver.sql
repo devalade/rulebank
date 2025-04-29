@@ -1,1 +1,1 @@
-ALTER TABLE `rule` ADD `tags` text;
+ALTER TABLE `rule` ADD `tags` text DEFAULT NULL;

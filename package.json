@@ -12,7 +12,8 @@
     "typegen": "wrangler types && react-router typegen",
     "check": "biome check .",
     "check:fix": "biome check --fix .",
-    "db:seed": "wrangler d1 execute DB --local --file=./app/database/seed.sql",
+    "db:seed": "wrangler d1 execute DB --local --file=./seed-01.sql",
+    "db:seed-prod": "wrangler d1 execute DB --remote --file=./seed-01.sql",
     "db:drop": "drizzle-kit drop",
     "db:generate": "drizzle-kit generate",
     "db:apply": "wrangler d1 migrations apply DB --local",
@@ -63,6 +64,6 @@
     "typescript": "^5.8.3",
     "vite": "^6.2.6",
     "vite-tsconfig-paths": "^5.1.4",
-    "wrangler": "^3.114.5"
+    "wrangler": "^4.11.1"
   }
 }
