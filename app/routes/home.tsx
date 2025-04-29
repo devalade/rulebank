@@ -109,15 +109,6 @@ export async function loader({ context, request }: Route.LoaderArgs) {
   }
 }
 
-export async function action({ request, context }: Route.ActionArgs) {
-  const auth = serverAuth(context.cloudflare.env);
-  const session = await auth.api.getSession({
-    headers: request.headers,
-  });
-
-  return { session };
-}
-
 export default function Home({ loaderData }: Route.ComponentProps) {
   const {
     rules: initialRules,
